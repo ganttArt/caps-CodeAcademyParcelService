@@ -1,0 +1,25 @@
+{
+  "name": "caps-CodeAcademyParcelService",
+  "version": "1.0.0",
+  "description": "",
+  "main": "caps.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node caps.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ganttArt/caps-CodeAcademyParcelService.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ganttArt/caps-CodeAcademyParcelService/issues"
+  },
+  "homepage": "https://github.com/ganttArt/caps-CodeAcademyParcelService#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "faker": "^5.5.3"
+  }
+}
