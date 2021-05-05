@@ -8,13 +8,18 @@
 
 `.env` requirements
 
-- STORE_NAME = (string)
+STORE_NAME
+PORT=3000
+HOST=http://localhost:3000
+VENDOR_ONE=12345
 
 ---
 
 ### Running the app
 
-`npm run start`
+`node caps.js`
+`node modules/vendor.js`
+`node modules/driver.js`
 
 ---
 
