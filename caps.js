@@ -7,30 +7,29 @@ const io = require('socket.io')(process.env.PORT);
 const caps = io.of('/caps');
 
 caps.on('connection', socket => {
-  console.log('client:', socket.id);
-  console.log(socket);
+  console.log('connected client:', socket.id);
+
+  socket.on('join', room => {
+    socket.join(room);
+  })
 
   socket.on('pickup', payload => {
-    let pickupEvent = {
-      event: 'pickup',
-      time: new Date(),
-      payload: payload
-    };
-    console.log('EVENT ' + JSON.stringify(pickupEvent, 0, 2));
-    socket.broadcast.emit('pickup', pickupEvent);
+    logger('pickup', payload);
+    caps.emit('pickup', payload);
   })
 
   socket.on('in-transit', payload => {
-    console.log('in transit');
-    console.log('socket id', socket.id);
-    payload.vendor = payload.payload.storeId;
-    socket.broadcast.emit('in-transit', payload);
+    logger('in-transit', payload);
+    caps.to(payload.store).emit('in-transit', payload);
   })
 
   socket.on('delivered', payload => {
-    console.log('delivered');
-    console.log('socket id', socket.id);
-    payload.vendor = payload.payload.storeId;
-    socket.broadcast.emit('delivered', payload);
+    logger('delivered', payload);
+    caps.to(payload.store).emit('delivered', payload);
   })
 });
+
+function logger(event, payload) {
+  let timestamp = new Date();
+  console.log({ timestamp, event, payload }); 
+}
