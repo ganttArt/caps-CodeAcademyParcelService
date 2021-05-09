@@ -5,12 +5,15 @@ require('dotenv').config();
 
 const io = require('socket.io-client');
 
-const capsConnection = io.connect(`${process.env.HOST}/caps`);
+const socket = io.connect(`${process.env.HOST}/caps`);
+
+const store = '1-800-flowerz';
+
+socket.emit('join', store)
 
 setInterval(() => {
   let newCustomerOrder = {
-    storeName: process.env.STORE_NAME,
-    storeId: process.env.VENDOR_ONE,
+    store: store,
     orderId: faker.datatype.uuid(),
     customerName: faker.name.findName(),
     address: [
@@ -23,11 +26,9 @@ setInterval(() => {
     ].join(' ')
   }
 
-  capsConnection.emit('pickup', newCustomerOrder);
+  socket.emit('pickup', newCustomerOrder);
 }, 500);
 
-capsConnection.on('delivered', payload => {
-  if (payload.vendor === process.env.VENDOR_ONE) {
-    console.log(`thank you for delivering ${payload.payload.orderId}`);
-  }
+socket.on('delivered', payload => {
+  console.log(`thank you for delivering ${payload.orderId}`);
 })

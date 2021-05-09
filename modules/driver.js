@@ -7,12 +7,12 @@ const capsConnection = io.connect(`${process.env.HOST}/caps`);
 
 capsConnection.on('pickup', payload => {
   setTimeout(() => {
-    console.log(`picking up ${payload.payload.orderId}`);
+    console.log(`picking up ${payload.orderId}`);
     capsConnection.emit('in-transit', payload);
   }, 1500);
   
   setTimeout(() => {
-    console.log(`delivered ${payload.payload.orderId}`);
+    console.log(`delivered ${payload.orderId}`);
     capsConnection.emit('delivered', payload);
   }, 3000);
 })
