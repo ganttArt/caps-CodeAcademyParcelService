@@ -1,12 +1,11 @@
 'use strict';
 
 require('dotenv').config();
-const uuid = require('uuid').v4;
 const client = require('socket.io-client');
 const socket = client.connect(`http://localhost:${process.env.QUEUE_SERVER}/caps`);
 
-const storeId = 'acme-widgets';
-let eventName = 'test-event-name';
+const storeId = '1-206-flowers';
+let eventName = 'test-event-name2';
 
 socket.emit('getAll',
   {
@@ -15,4 +14,7 @@ socket.emit('getAll',
   }
 );
 
-socket.on('delivered', )
+socket.on('delivered', payload => {
+  console.log('custom message', payload);
+  caps.emit('received', payload);
+})

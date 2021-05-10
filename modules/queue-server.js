@@ -11,18 +11,18 @@ caps.on('connection', socket => {
   console.log('connected to caps queue server', socket);
   
   socket.on('received', payload => {
-    delete queue[payload.storeId][payload.eventName][payload.messageId];
+    delete queue[payload.store][payload.eventName][payload.messageId];
     console.log('deleted received message from queue')
   })
 
   socket.on('getAll', payload => {
-    Object.keys(queue[payload.storeId][payload.eventName]).forEach(messageId => {
-      socket.emit(queue[payload.storeId][payload.eventName][messageId]);
+    Object.keys(queue[payload.store][payload.eventName]).forEach(messageId => {
+      socket.emit(queue[payload.store][payload.eventName][messageId]);
     })
   })
 
   socket.on('delivered', payload => {
-    queue[payload.storeId][payload.eventName][payload.messageId] = payload.message;
+    queue[payload.store]['delivered'][payload.messageId] = payload.message;
 
     caps.emit({
       messageId: payload.messageId,
